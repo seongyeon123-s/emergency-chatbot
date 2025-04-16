@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Mic, Languages, Settings } from "lucide-react"
+import MarkerClusterGroup from "react-leaflet-cluster"
 import {
   Dialog,
   DialogContent,
@@ -24,6 +25,14 @@ delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
   iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+})
+
+const shelterIcon = new L.Icon({
+  iconUrl: "/shelter-icon.png",
+  iconSize: [30, 40],
+  iconAnchor: [15, 40],
+  popupAnchor: [0, -35],
   shadowUrl: markerShadow,
 })
 
@@ -72,6 +81,7 @@ export default function EmergencyAppUI() {
   const [location, setLocation] = useState(null)
   const [address, setAddress] = useState(null)
   const [showVoiceAssistant, setShowVoiceAssistant] = useState(false)
+  const [shelters, setShelters] = useState([])
 
   const privacyPolicyText = `
 개인정보 보호법 제1조(목적)
@@ -87,6 +97,11 @@ export default function EmergencyAppUI() {
 ※ 본 앱은 위치 정보, 음성 입력 데이터 등을 수집하여 긴급 상황 대응에만 사용하며,
 다른 목적으로는 이용되지 않습니다.
 `
+useEffect(() => {
+  fetch("/shelters.json")
+    .then(res => res.json())
+    .then(setShelters)
+}, [])
 
   useEffect(() => {
     if (gpsEnabled) {
@@ -235,9 +250,16 @@ export default function EmergencyAppUI() {
                       attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[location.latitude, location.longitude]}>
+                     <Marker position={[location.latitude, location.longitude]}>
                       <Popup>{t("currentLocation")}</Popup>
                     </Marker>
+                    <MarkerClusterGroup>
+                      {shelters.map((shelter, idx) => (
+                        <Marker key={idx} position={[shelter.lat, shelter.lng]} icon={shelterIcon}>
+                          <Popup>{shelter.name}</Popup>
+                        </Marker>
+                      ))}
+                    </MarkerClusterGroup>
                   </MapContainer>
                 </div>
               </>
