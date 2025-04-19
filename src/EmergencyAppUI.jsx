@@ -1,10 +1,11 @@
 // EmergencyAppUI.jsx (음성 컴포넌트 + 위치 + 오프라인 메뉴얼 + 음성 인식 상황 매칭)
-import { useState, useEffect } from "react"
+import { useState, useEffect,useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Mic, Languages, Settings } from "lucide-react"
 import MarkerClusterGroup from "react-leaflet-cluster"
+import { getDistance, findNearestShelter } from "@/lib/utils"
 import {
   Dialog,
   DialogContent,
@@ -82,6 +83,8 @@ export default function EmergencyAppUI() {
   const [address, setAddress] = useState(null)
   const [showVoiceAssistant, setShowVoiceAssistant] = useState(false)
   const [shelters, setShelters] = useState([])
+  const mapRef = useRef(null)
+
 
   const privacyPolicyText = `
 개인정보 보호법 제1조(목적)
@@ -241,6 +244,7 @@ useEffect(() => {
                 </div>
                 <div className="h-64 mt-2 rounded-xl overflow-hidden">
                   <MapContainer
+                    ref={mapRef}
                     center={[location.latitude, location.longitude]}
                     zoom={13}
                     scrollWheelZoom={false}
@@ -264,15 +268,18 @@ useEffect(() => {
                 </div>
               </>
             )}
-            <div className="flex items-center justify-between">
-              <span><strong>{t("privacy")}</strong></span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setPrivacyOpen(true)}
-              >
-                {t("view")}
-              </Button>
+            <div className="flex justify-end mt-2">
+  <Button
+    onClick={() => {
+      const nearest = findNearestShelter(location.latitude, location.longitude, shelters)
+      if (nearest && mapRef.current) {
+        mapRef.current.setView([nearest.lat, nearest.lng], 17)
+      }
+    }}
+    className="bg-blue-600 text-white px-3 py-1 rounded shadow"
+  >
+    📍 {t("nearestShelter") || " 가까운 대피소"}
+               </Button>
             </div>
           </div>
         </CardContent>
