@@ -13,7 +13,7 @@ const translations = {
         settings: "⚙️ 설정",
         languageSetting: "언어 설정:",
         voiceSetting: "음성 인식:",
-        offlineManual: "오프라인 메뉴얼:",
+        offlineManual: "PDF 메뉴얼:",
         gpsSetting: "위치 정보 사용:",
         privacy: "개인정보 처리방침:",
         change: "변경",
