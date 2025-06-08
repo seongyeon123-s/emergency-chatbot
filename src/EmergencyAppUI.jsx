@@ -6,6 +6,7 @@ import { Switch } from "@/components/ui/switch"
 import { Mic, Languages, Settings } from "lucide-react"
 import MarkerClusterGroup from "react-leaflet-cluster"
 import { getDistance, findNearestShelter } from "@/lib/utils"
+import { drawRoute } from "@/utils/drawRoute"
 import {
   Dialog,
   DialogContent,
@@ -20,6 +21,11 @@ import L from "leaflet"
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png"
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import markerShadow from "leaflet/dist/images/marker-shadow.png"
+import ShelterSearch from "./components/ShelterSearch";
+import ShelterEmergencySMS from "@/components/ShelterEmergencySMS";
+
+
+
 
 // 마커 아이콘 설정
 delete L.Icon.Default.prototype._getIconUrl
@@ -83,7 +89,11 @@ export default function EmergencyAppUI() {
   const [address, setAddress] = useState(null)
   const [showVoiceAssistant, setShowVoiceAssistant] = useState(false)
   const [shelters, setShelters] = useState([])
+  const [directions, setDirections] = useState([]);
+  const [activeStepIndex, setActiveStepIndex] = useState(-1);
   const mapRef = useRef(null)
+  
+
 
 
   const privacyPolicyText = `
@@ -118,6 +128,32 @@ useEffect(() => {
     }
   }, [gpsEnabled, language])
 
+  useEffect(() => {
+  const interval = setInterval(() => {
+    if (!location || directions.length === 0) return;
+
+    let minDistance = Infinity;
+    let nearestIdx = -1;
+
+    directions.forEach((step, idx) => {
+      if (!step.location) return;
+      const d = getDistance(
+        { latitude: location.latitude, longitude: location.longitude },
+        { latitude: step.location[0], longitude: step.location[1] }
+      );
+      if (d < minDistance) {
+        minDistance = d;
+        nearestIdx = idx;
+      }
+    });
+
+    setActiveStepIndex(nearestIdx);
+  }, 3000);
+
+  return () => clearInterval(interval);
+}, [location, directions]);
+
+
   const t = (key) => translations[language]?.[key] || key
   const titleMap = t("detailTitle")
   const contentMap = t("detailContent")
@@ -146,7 +182,7 @@ useEffect(() => {
 
   const handleVoiceResult = (text) => {
     const keywords = {
-      wildfire: ["불", "산불", "화재"],
+      wildfire: ["불", "산불", "wildfire"],
       earthquake: ["지진", "흔들려", "진동"],
       flood: ["홍수", "물", "침수"],
       war: ["전쟁", "폭격", "총"]
@@ -239,6 +275,9 @@ useEffect(() => {
             </div>
             {gpsEnabled && location && (
               <>
+              <div className="absolute top-4 left-4 z-[1000]">
+  <ShelterSearch mapRef={mapRef} shelters={shelters} />
+</div>
                 <div className="text-sm text-green-600 mt-2">
                   📍 {renderCurrentLocation()}
                 </div>
@@ -268,7 +307,7 @@ useEffect(() => {
                 </div>
               </>
             )}
-            <div className="flex justify-end mt-2">
+<div className="flex justify-end mt-2 space-x-2">
   <Button
     onClick={() => {
       const nearest = findNearestShelter(location.latitude, location.longitude, shelters)
@@ -278,13 +317,54 @@ useEffect(() => {
     }}
     className="bg-blue-600 text-white px-3 py-1 rounded shadow"
   >
-    📍 {t("nearestShelter") || " 가까운 대피소"}
-               </Button>
-            </div>
-          </div>
+    📍 {t("nearestShelter") || "가까운 대피소"}
+  </Button>
+
+  <Button
+    onClick={async () => {
+      const mapInstance = mapRef.current
+      const nearest = findNearestShelter(location.latitude, location.longitude, shelters)
+      if (nearest && mapInstance) {
+        const steps = await drawRoute(
+          mapInstance,
+          { lat: location.latitude, lng: location.longitude },
+          { lat: nearest.lat, lng: nearest.lng }
+        );
+        setDirections(steps);
+      }
+    }}
+    className="bg-green-600 text-white px-3 py-1 rounded shadow"
+  >
+    🚶 {t("navigationGuide") || "길 안내"}    
+  </Button>
+<div className="flex justify-end mt-2">
+  <ShelterEmergencySMS
+    location={location}
+    situation={selected ? t(selected) : ""}
+  />
+</div>
+
+</div>
+{directions.length > 0 && (
+  <div className="bg-white border rounded-xl p-4 mt-4 shadow space-y-2">
+    <h2 className="text-lg font-bold">🚶 길 안내</h2>
+    <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+      {directions.map((step, idx) => (
+        <li
+          key={idx}
+          className={`transition-all duration-500 ${
+            idx === activeStepIndex ? "bg-yellow-200 font-bold animate-pulse rounded-md px-2" : ""
+          }`}
+        >
+          {step.text}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}  
+</div>
         </CardContent>
       </Card>
-
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
         <DialogContent>
           <DialogHeader>
