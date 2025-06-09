@@ -21,7 +21,7 @@ export default function ShelterEmergencySMS({ location, situation }) {
     }
 
     // 보호자 번호 설정 필요
-    window.location.href = `sms:01012345678?body=${encoded}`;
+    window.location.href = `sms:01036758659?body=${encoded}`;
   };
 
   return (
