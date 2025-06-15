@@ -4,10 +4,12 @@ const translations = {
       ko: {
         appTitle: "🆘 비상상황 챗봇",
         chooseSituation: "어느 상황인가요?",
-        wildfire: "🔥 산불",
+        wildfire: "🔥 화재",
         earthquake: "🌍 지진",
-        flood: "🌊 홍수",
+        flood: "🌧️ 홍수",
         war: "⚔️ 전쟁",
+        typhoon: "🌪️ 태풍",
+        tsunami:"🌊해일",
         voiceInput: "음성 입력",
         changeLanguage: "언어 변경",
         settings: "⚙️ 설정",
@@ -25,26 +27,159 @@ const translations = {
         currentLocation: "📍 현재 위치:",
         nearestShelter: "📍가까운 대피소",
         detailTitle: {
-          wildfire: "산불 대처 요령",
+          wildfire: "화재 대처 요령",
           earthquake: "지진 대처 요령",
           flood: "홍수 대처 요령",
           war: "전쟁 대처 요령",
+          typhoon: "태풍 대처 요령",
+          tsunami:"해일 대처 요령",
         },
         detailContent: {
-          wildfire: `🔥야외에서 발생했을 때\n1. 바람 방향을 확인하고 바람 반대편으로 대피하세요.\n2. 연기가 짙은 곳은 피하고 낮은 자세로 이동하세요.\n3. 차량보다 도보가 안전할 수 있으니 상황을 판단하세요.\n4. 화제 발생지보다 낮은 곳으로 대피하세요.\n🏠실내에서 발생했을 때\n1. 작은 화제일 경우 소화기를 사용하세요.\n2. 초기 진압에 실패했을 경우 119에 신고하고 안내를 따르세요.\n3. 젖은 수건을 얼굴에 두르고 낮은 자세로 대피하세요.\n4. 출입문의 온도를 확인하고 탈출하세요.\n5. 엘리베이터를 사용하지 마세요.\n📞비상 연락망\n산림청 : 1688-3119\n소방서 : 119`,
-          earthquake: `🏢건물 안에서 발생했을 때\n1. 탁자 아래로 들어가 머리를 보호하세요.\n2. 창문 및 떨어질 물건에서 떨어지세요.\n3. 진동이 멈춘 후 대피하세요.\n🚗차 안에서 발생했을 때\n1. 큰 진동이 끝날 때까지 차 안에서 머무르되, 고가도로나 터널은 피하세요.\n2. 비상등을 켜둔 채, 높은 건물이 적은 도로 가장자리에 정차하세요.\n🏞️야외에서 발생했을 때\n1. 가로수, 건물, 전신주에서 멀리 떨어져서 대기하세요.\n2. 넓은 공터로 대피하세요.\n📞비상 연락망\n소방서 : 119\n경찰서 : 112\n행정안전부 재난안전상황실 : 044-205-1542`,
-          flood: `🏠실내에 있을 때\n1. 2층 이상으로 대피하세요.\n2. 전기 기기 사용을 피하고, 물 근처에 접근하지 마세요.\n3. 가스를 차단하세요.\n4. 지역 뉴스나 안내 방송을 확인하세요.\n💧야외에 있을 때\n1. 높은 지대로 대피하세요.\n2. 하천, 침수도로 근처로 가지 마세요.\n3. 차량 사용을 자제하세요.\n📞비상 연락망\n소방서 : 119\n경찰서 : 112\n행정안전부 재난안전상황실 : 044-205-1542`,
-          war: `🚨전쟁 발발 직후\n1. 공습 경보를 듣고 즉시 대피소로 이동하세요.\n2. 비상용품을 미리 준비하고, 가족과 연락 계획을 세우세요.\n3. 군사 시설 근처를 피하고 실내에 머무르세요.\n4. 통신 두절을 대비해서 가족, 지인들과 모일 장소, 연락 방법을 정하세요.\n5. TV나 라디오, 스마트폰 알림으로 정부의 지시를 따르세요.\n🛡️전쟁 중 행동수칙\n1. 실내에서 머무르며 외부 노출을 자제하세요.\n2. 식량과 물을 아껴서 사용하세요.\n3. 정부방송 및 공공알림을 주기적으로 확인하세요.\n📞비상 연락망\n행정안전부 중앙재난안전대책본부 : 044-205-1542\n대한적십자사 : 1577-8179\n소방서 : 119\n경찰서 : 112\n🌐정부 공지 확인\n정부24 : www.gov.kr`,
+          wildfire: `
+            <h3>🏠 실내에서</h3>
+            <ol>
+              <li><strong>작은 화재</strong>일 경우 소화기를 사용하세요.</li>
+              <li><strong>초기 진압 실패 시</strong> 119에 신고하고 안내를 따르세요.</li>
+              <li>젖은 수건을 얼굴에 두르고 낮은 자세로 대피하세요.</li>
+              <li>출입문의 온도를 확인하고 탈출하세요.</li>
+              <li><strong>엘리베이터는 사용하지 마세요.</strong></li>
+            </ol>
+            <h3>🔥 야외에서</h3>
+            <ol>
+              <li><strong>바람 반대편</strong>으로 대피하세요.</li>
+              <li>연기가 짙은 곳은 피하고 <strong>낮은 자세</strong>로 이동하세요.</li>
+              <li><strong>도보</strong>가 차량보다 안전할 수 있습니다.</li>
+              <li><strong>화재 발생지보다 낮은 곳</strong>으로 대피하세요.</li>
+            </ol>
+            <p><strong>📞 비상 연락망</strong><br>
+            산림청: 1688-3119<br>
+            소방서: 119</p>
+          `,
+          earthquake: `
+            <h3>🏢 건물 안에서</h3>
+            <ol>
+              <li>탁자 아래로 들어가 머리를 보호하세요.</li>
+              <li>창문 및 떨어질 물건에서 떨어지세요.</li>
+              <li>진동이 멈춘 후 대피하세요.</li>
+            </ol>
+            <h3>🚗 차량 안에서</h3>
+            <ol>
+              <li>큰 진동이 끝날 때까지 차 안에서 머무르세요.</li>
+              <li>고가도로나 터널은 피하고 비상등을 켜고 정차하세요.</li>
+            </ol>
+            <h3>🏞️ 야외에서</h3>
+            <ol>
+              <li>가로수, 건물, 전신주에서 멀리 떨어지세요.</li>
+              <li>넓은 공터로 대피하세요.</li>
+            </ol>
+            <p><strong>📞 비상 연락망</strong><br>
+            소방서: 119<br>
+            경찰서: 112<br>
+            행정안전부 재난안전상황실: 044-205-1542</p>
+          `,
+          flood: `
+            <h3>🏠 실내에 있을 때</h3>
+            <ol>
+              <li><strong>2층 이상</strong>으로 대피하세요.</li>
+              <li><strong>전기 기기 사용을 피하고</strong> 물 근처에 접근하지 마세요.</li>
+              <li>가스를 차단하세요.</li>
+              <li>지역 뉴스나 안내 방송을 확인하세요.</li>
+            </ol>
+            <h3>💧 야외에 있을 때</h3>
+            <ol>
+              <li><strong>높은 지대</strong>로 대피하세요.</li>
+              <li>하천, 침수도로 근처로 가지 마세요.</li>
+              <li>차량 사용을 자제하세요.</li>
+            </ol>
+            <p><strong>📞 비상 연락망</strong><br>
+            소방서: 119<br>
+            경찰서: 112<br>
+            행정안전부 재난안전상황실: 044-205-1542</p>
+          `,
+          war: `
+            <h3>🚨 전쟁 발발 직후</h3>
+            <ol>
+              <li>공습 경보를 들으면 <strong>즉시 대피소</strong>로 이동하세요.</li>
+              <li>비상용품을 준비하고 가족과 <strong>연락 계획</strong>을 세우세요.</li>
+              <li><strong>군사 시설 근처</strong>를 피하고 실내에 머무르세요.</li>
+              <li>통신 두절을 대비해 <strong>모일 장소</strong>를 정하세요.</li>
+              <li>TV, 라디오, 스마트폰 알림으로 <strong>정부의 지시</strong>를 따르세요.</li>
+            </ol>
+            <h3>🛡️ 전쟁 중 행동수칙</h3>
+            <ol>
+              <li>실내에서 머무르며 <strong>외부 노출을 자제</strong>하세요.</li>
+              <li><strong>식량과 물</strong>을 아껴서 사용하세요.</li>
+              <li>정부 방송 및 공공 알림을 <strong>주기적으로 확인</strong>하세요.</li>
+            </ol>
+            <p><strong>📞 비상 연락망</strong><br>
+            행정안전부 중앙재난안전대책본부: 044-205-1542<br>
+            대한적십자사: 1577-8179<br>
+            소방서: 119<br>
+            경찰서: 112<br>
+            <strong>🌐 정부 공지 확인:</strong> <a href="https://www.gov.kr" target="_blank">www.gov.kr</a></p>
+          `,
+          typhoon: `
+          <h3>🌪️ 태풍 대처 요령</h3>
+          <h4><strong>사전 대비</strong></h4>
+          <ul>
+            <li>기상 정보 확인 및 외출 자제</li>
+            <li>창문 고정 및 비상용품 준비</li>
+            <li>야외 시설물 실내로 이동</li>
+          </ul>
+          <h4><strong>태풍 중</strong></h4>
+          <ul>
+            <li>실내 대피, 창문 근처 피하기</li>
+            <li>정전 대비, 전기 제품 사용 주의</li>
+            <li>침수 시 전기 차단</li>
+          </ul>
+          <h4><strong>태풍 후</strong></h4>
+          <ul>
+            <li>위험 지역 접근 금지</li>
+            <li>가스·전기 점검, 감염병 주의</li>
+            <li>시설물 피해 신고</li>
+          </ul>
+          <p><strong>📞 비상 연락망</strong><br>
+          기상청: 131<br>
+          소방서: 119</p>
+`,
+tsunami: `
+  <h3>🌊 <strong>해일 발생 시 행동 요령</strong></h3>
+  <h4><strong>사전 준비</strong></h4>
+  <ul>
+    <li>해안 지역에 있을 경우 <strong>해일 경보 시스템</strong> 위치 확인</li>
+    <li><strong>가족 대피 장소</strong>와 연락 방법 사전 공유</li>
+  </ul>
+
+  <h4><strong>해일 발생 시</strong></h4>
+  <ul>
+    <li><strong>해안가 근처에 있을 경우</strong>, 즉시 높은 지대로 대피</li>
+    <li>자동차보다 <strong>도보 이동</strong>이 빠르면 걸어서 대피</li>
+    <li>해일 경보 시 <strong>절대 해변이나 방파제에 접근하지 마세요</strong></li>
+  </ul>
+
+  <h4><strong>해일 후</strong></h4>
+  <ul>
+    <li>구조 활동 방해되지 않도록 <strong>안전한 장소에 머무르세요</strong></li>
+    <li>홍수, 전염병 등 <strong>2차 피해에 유의</strong>하세요</li>
+    <li>공식 안내가 있을 때까지 <strong>귀가를 자제</strong>하세요</li>
+  </ul>
+
+  <p><strong>📞 비상 연락망</strong><br>
+  기상청: 131<br>
+  소방서: 119</p>
+`,
         },
       },
     
       en: {
         appTitle: "🆘 Emergency Chatbot",
         chooseSituation: "What is the emergency situation?",
-        wildfire: "🔥 Wildfire",
+        wildfire: "🔥 fire",
         earthquake: "🌍 Earthquake",
-        flood: "🌊 Flood",
+        flood: "🌧️ Flood",
         war: "⚔️ War",
+        typhoon: "🌪️ Typhoon",
+        tsunami: "🌊Tsunami",
         voiceInput: "Voice Input",
         changeLanguage: "Change Language",
         settings: "⚙️ Settings",
@@ -66,22 +201,158 @@ const translations = {
           earthquake: "Earthquake Guide",
           flood: "Flood Guide",
           war: "War Response Guide",
+          typhoon: "Typhoon Safety Guide",
+          tsunami: "Tsunami Safety Guide",
         },
         detailContent: {
-            "wildfire": "🔥When outdoors:\n1. Identify wind direction and evacuate against the wind.\n2. Avoid thick smoke and move in a low posture.\n3. Walking may be safer than driving; assess the situation.\n4. Evacuate to lower areas than the fire origin.\n🏠When indoors:\n1. Use a fire extinguisher for small fires.\n2. If initial suppression fails, call 119 and follow instructions.\n3. Cover your face with a wet towel and evacuate in a low posture.\n4. Check the door temperature before exiting.\n5. Do not use elevators.\n📞Emergency Contacts\n  Korea Forest Service: 1688-3119\n  Fire Department: 119",
-            "earthquake": "🏢When inside a building:\n1. Take cover under a table and protect your head.\n2. Stay away from windows and falling objects.\n3. Evacuate after the shaking stops.\n🚗When in a car:\n1. Stay inside until the major shaking stops; avoid overpasses and tunnels.\n2. Turn on hazard lights and stop at the roadside away from tall buildings.\n🏞️When outdoors:\n1. Stay away from trees, buildings, and utility poles.\n2. Evacuate to an open area.\n📞Emergency Contacts\n  Fire Department: 119\n  Police: 112\n  Ministry of the Interior and Safety Disaster Situation Room: 044-205-1542",
-            "flood": "🏠When indoors:\n1. Evacuate to the second floor or higher.\n2. Avoid using electrical appliances and stay away from water.\n3. Shut off the gas supply.\n4. Monitor local news and announcements.\n💧When outdoors:\n1. Evacuate to higher ground.\n2. Stay away from rivers and flooded roads.\n3. Refrain from using vehicles.\n📞Emergency Contacts\n  Fire Department: 119\n  Police: 112\n  Ministry of the Interior and Safety Disaster Situation Room: 044-205-1542",
-            "war": "🚨Immediately after the outbreak of war:\n1. Upon hearing an air raid warning, move to a shelter immediately.\n2. Prepare emergency supplies and establish a communication plan with family.\n3. Avoid military facilities and stay indoors.\n4. Plan meeting places and communication methods with family and acquaintances in case of communication failure.\n5. Follow government instructions via TV, radio, or smartphone alerts.\n🛡️During wartime:\n1. Stay indoors and minimize exposure.\n2. Conserve food and water.\n3. Regularly check government broadcasts and public alerts.\n📞Emergency Contacts\n  Ministry of the Interior and Safety Central Disaster and Safety Countermeasures Headquarters: 044-205-1542\n  Korean Red Cross: 1577-8179\n  Fire Department: 119\n  Police: 112\n🌐Government Notices\n  Government24: www.gov.kr"
-        },
+  wildfire: `
+    <h3>🏠 Indoors</h3>
+    <ol>
+      <li>If it is a <strong>small fire</strong>, use a fire extinguisher.</li>
+      <li><strong>If initial suppression fails</strong>, call 119 and follow the instructions.</li>
+      <li>Cover your face with a wet towel and evacuate in a low posture.</li>
+      <li>Check the door temperature before exiting.</li>
+      <li><strong>Do not use the elevator.</strong></li>
+    </ol>
+    <h3>🔥 Outdoors</h3>
+    <ol>
+      <li>Evacuate <strong>against the wind direction</strong>.</li>
+      <li>Avoid heavy smoke and move in a <strong>low posture</strong>.</li>
+      <li><strong>Walking</strong> may be safer than driving.</li>
+      <li>Evacuate to an area <strong>lower than the fire origin</strong>.</li>
+    </ol>
+    <p><strong>📞 Emergency Contacts</strong><br>
+    Korea Forest Service: 1688-3119<br>
+    Fire Department: 119</p>
+  `,
+  earthquake: `
+    <h3>🏢 Inside a Building</h3>
+    <ol>
+      <li>Take cover under a table and protect your head.</li>
+      <li>Stay away from windows and falling objects.</li>
+      <li>Evacuate after the shaking stops.</li>
+    </ol>
+    <h3>🚗 Inside a Vehicle</h3>
+    <ol>
+      <li>Stay inside the car until the major shaking stops.</li>
+      <li>Avoid overpasses and tunnels. Turn on hazard lights and stop safely.</li>
+    </ol>
+    <h3>🏞️ Outdoors</h3>
+    <ol>
+      <li>Stay away from trees, buildings, and utility poles.</li>
+      <li>Evacuate to an open area.</li>
+    </ol>
+    <p><strong>📞 Emergency Contacts</strong><br>
+    Fire Department: 119<br>
+    Police: 112<br>
+    Ministry of the Interior and Safety Situation Room: 044-205-1542</p>
+  `,
+  flood: `
+    <h3>🏠 Indoors</h3>
+    <ol>
+      <li><strong>Evacuate to the second floor or higher</strong>.</li>
+      <li><strong>Avoid using electrical devices</strong> and stay away from water.</li>
+      <li>Turn off the gas valve.</li>
+      <li>Check local news or emergency broadcasts.</li>
+    </ol>
+    <h3>💧 Outdoors</h3>
+    <ol>
+      <li><strong>Move to higher ground</strong>.</li>
+      <li>Avoid rivers and flooded roads.</li>
+      <li>Refrain from using vehicles.</li>
+    </ol>
+    <p><strong>📞 Emergency Contacts</strong><br>
+    Fire Department: 119<br>
+    Police: 112<br>
+    Ministry of the Interior and Safety Situation Room: 044-205-1542</p>
+  `,
+  war: `
+    <h3>🚨 Immediately After War Breaks Out</h3>
+    <ol>
+      <li>Upon hearing an air raid alert, <strong>immediately go to a shelter</strong>.</li>
+      <li>Prepare emergency supplies and establish a <strong>contact plan</strong> with family.</li>
+      <li><strong>Avoid military facilities</strong> and stay indoors.</li>
+      <li>Plan a <strong>meeting place</strong> in case communication is lost.</li>
+      <li>Follow <strong>government instructions</strong> via TV, radio, or smartphone alerts.</li>
+    </ol>
+    <h3>🛡️ During War</h3>
+    <ol>
+      <li>Stay indoors and <strong>minimize exposure</strong> to the outside.</li>
+      <li><strong>Conserve food and water</strong>.</li>
+      <li><strong>Check public alerts</strong> and government broadcasts regularly.</li>
+    </ol>
+    <p><strong>📞 Emergency Contacts</strong><br>
+    Central Disaster and Safety Countermeasure Headquarters: 044-205-1542<br>
+    Korean Red Cross: 1577-8179<br>
+    Fire Department: 119<br>
+    Police: 112<br>
+    <strong>🌐 Government Notices:</strong> <a href="https://www.gov.kr" target="_blank">www.gov.kr</a></p>
+  `,
+    typhoon: `
+  <h3>🌪️ Typhoon Safety Guide</h3>
+  <h4><strong>Before the Typhoon</strong></h4>
+  <ul>
+    <li>Check weather updates and avoid going outside</li>
+    <li>Secure windows and prepare emergency supplies</li>
+    <li>Bring outdoor items indoors</li>
+  </ul>
+  <h4><strong>During the Typhoon</strong></h4>
+  <ul>
+    <li>Stay indoors and away from windows</li>
+    <li>Prepare for power outages and use electronics cautiously</li>
+    <li>Turn off electricity if flooding occurs</li>
+  </ul>
+  <h4><strong>After the Typhoon</strong></h4>
+  <ul>
+    <li>Avoid entering dangerous areas</li>
+    <li>Check gas/electric lines and beware of disease</li>
+    <li>Report any facility damage</li>
+  </ul>
+  <p><strong>📞 Emergency Contacts</strong><br>
+  KMA (Weather): 131<br>
+  Fire Department: 119</p>
+`,
+tsunami: `
+  <h3>🌊 <strong>Tsunami Safety Guidelines</strong></h3>
+  <h4><strong>Before a tsunami</strong></h4>
+  <ul>
+    <li>Know the <strong>tsunami warning systems</strong> in your coastal area</li>
+    <li>Share <strong>evacuation routes and contact plans</strong> with family members</li>
+  </ul>
+
+  <h4><strong>During a tsunami</strong></h4>
+  <ul>
+    <li>If near the coast, <strong>evacuate immediately to higher ground</strong></li>
+    <li>If faster, <strong>evacuate on foot</strong> instead of by car</li>
+    <li>Do <strong>not approach the beach or seawalls</strong> after a warning</li>
+  </ul>
+
+  <h4><strong>After a tsunami</strong></h4>
+  <ul>
+    <li><strong>Stay in a safe area</strong> and avoid interfering with rescue efforts</li>
+    <li>Watch out for <strong>secondary hazards</strong> like floods and infections</li>
+    <li>Do <strong>not return home</strong> until officially advised</li>
+  </ul>
+
+  <p><strong>📞 Emergency Contacts</strong><br>
+  KMA (Weather Agency): 131<br>
+  Fire Department: 119</p>
+`
+,
+
+}
+,
       },
     
       ja: {
         appTitle: "🆘 緊急チャットボット",
         chooseSituation: "どの状況ですか？",
-        wildfire: "🔥 山火事",
+        wildfire: "🔥 火事",
         earthquake: "🌍 地震",
-        flood: "🌊 洪水",
+        flood: "🌧️ 洪水",
         war: "⚔️ 戦争",
+        typhoon: "🌪️ 台風",
+        tsunami: "🌊津波",
         voiceInput: "音声入力",
         changeLanguage: "言語変更",
         settings: "⚙️ 設定",
@@ -103,25 +374,157 @@ const translations = {
           earthquake: "地震の対応方法",
           flood: "洪水の対応方法",
           war: "戦争時の行動指針",
+          typhoon: "台風の対応方法",
+          tsunami: "津波対策ガイド",
         },
         detailContent: {
-            "wildfire": "🔥屋外にいる場合:\n1. 風向きを確認し、風下ではなく風上に避難してください。\n2. 濃い煙を避け、低い姿勢で移動してください。\n3. 状況によっては徒歩の方が安全な場合があります。\n4. 火災発生場所より低い場所に避難してください。\n🏠屋内にいる場合:\n1. 小規模な火災には消火器を使用してください。\n2. 初期消火に失敗した場合は119番に通報し、指示に従ってください。\n3. 濡れたタオルで顔を覆い、低い姿勢で避難してください。\n4. 扉の温度を確認してから退避してください。\n5. エレベーターは使用しないでください。\n📞緊急連絡先\n  韓国森林庁: 1688-3119\n  消防署: 119",
-          
-            "earthquake": "🏢建物内にいる場合:\n1. 机の下に身を隠し、頭部を保護してください。\n2. 窓や落下物から離れてください。\n3. 揺れが収まった後に避難してください。\n🚗車内にいる場合:\n1. 大きな揺れが収まるまでは車内に留まり、高架橋やトンネルを避けてください。\n2. ハザードランプを点け、建物の少ない道の端に停車してください。\n🏞️屋外にいる場合:\n1. 木、建物、電柱から離れてください。\n2. 開けた場所に避難してください。\n📞緊急連絡先\n  消防署: 119\n  警察署: 112\n  行政安全部 災害状況室: 044-205-1542",
-          
-            "flood": "🏠屋内にいる場合:\n1. 2階以上に避難してください。\n2. 電気機器の使用を避け、水に近づかないでください。\n3. ガスを遮断してください。\n4. 地域ニュースや放送を確認してください。\n💧屋外にいる場合:\n1. 高台に避難してください。\n2. 川や冠水した道路には近づかないでください。\n3. 車の使用を控えてください。\n📞緊急連絡先\n  消防署: 119\n  警察署: 112\n  行政安全部 災害状況室: 044-205-1542",
-          
-            "war": "🚨戦争発生直後:\n1. 空襲警報が聞こえたら、すぐにシェルターに避難してください。\n2. 非常用品を準備し、家族との連絡計画を立ててください。\n3. 軍事施設から離れ、屋内に留まってください。\n4. 通信障害に備えて、集合場所や連絡方法を決めておきましょう。\n5. テレビ、ラジオ、スマートフォン通知で政府の指示に従ってください。\n🛡️戦時中:\n1. 屋内で過ごし、外出を控えてください。\n2. 食料と水を節約してください。\n3. 政府放送やアラートを定期的に確認してください。\n📞緊急連絡先\n  行政安全部 中央災害安全対策本部: 044-205-1542\n  韓国赤十字社: 1577-8179\n  消防署: 119\n  警察署: 112\n🌐政府通知: www.gov.kr"
-          },
+  wildfire: `
+    <h3>🏠 屋内</h3>
+    <ol>
+      <li><strong>小規模な火災</strong>の場合は消火器を使用してください。</li>
+      <li><strong>初期消火に失敗した場合</strong>は119番に通報し、指示に従ってください。</li>
+      <li>濡れたタオルで顔を覆い、姿勢を低くして避難してください。</li>
+      <li>ドアの温度を確認してから退避してください。</li>
+      <li><strong>エレベーターは使用しないでください。</strong></li>
+    </ol>
+    <h3>🔥 屋外</h3>
+    <ol>
+      <li><strong>風上</strong>の方向に避難してください。</li>
+      <li>煙が濃い場所を避け、<strong>低い姿勢</strong>で移動してください。</li>
+      <li><strong>徒歩</strong>のほうが安全な場合もあります。</li>
+      <li><strong>火災発生地よりも低い場所</strong>に避難してください。</li>
+    </ol>
+    <p><strong>📞 緊急連絡先</strong><br>
+    山林庁：1688-3119<br>
+    消防署：119</p>
+  `,
+  earthquake: `
+    <h3>🏢 建物内</h3>
+    <ol>
+      <li>机の下に隠れて頭を守ってください。</li>
+      <li>窓や落下物から離れてください。</li>
+      <li>揺れが収まってから避難してください。</li>
+    </ol>
+    <h3>🚗 車内</h3>
+    <ol>
+      <li>強い揺れが収まるまでは車内にとどまってください。</li>
+      <li>高架道路やトンネルを避け、ハザードランプを点けて安全な場所に停車してください。</li>
+    </ol>
+    <h3>🏞️ 屋外</h3>
+    <ol>
+      <li>街路樹や建物、電柱から離れてください。</li>
+      <li>広い空き地に避難してください。</li>
+    </ol>
+    <p><strong>📞 緊急連絡先</strong><br>
+    消防署：119<br>
+    警察署：112<br>
+    行政安全部災害安全状況室：044-205-1542</p>
+  `,
+  flood: `
+    <h3>🏠 屋内</h3>
+    <ol>
+      <li><strong>2階以上</strong>に避難してください。</li>
+      <li><strong>電気機器の使用を避け</strong>、水に近づかないでください。</li>
+      <li>ガスを遮断してください。</li>
+      <li>地域のニュースや放送を確認してください。</li>
+    </ol>
+    <h3>💧 屋外</h3>
+    <ol>
+      <li><strong>高い場所</strong>に避難してください。</li>
+      <li>河川や冠水した道路に近づかないでください。</li>
+      <li>車の使用を控えてください。</li>
+    </ol>
+    <p><strong>📞 緊急連絡先</strong><br>
+    消防署：119<br>
+    警察署：112<br>
+    行政安全部災害安全状況室：044-205-1542</p>
+  `,
+  war: `
+    <h3>🚨 戦争発生直後</h3>
+    <ol>
+      <li>空襲警報を聞いたら、<strong>すぐに避難所</strong>へ移動してください。</li>
+      <li>非常用品を準備し、家族と<strong>連絡手段</strong>を決めてください。</li>
+      <li><strong>軍事施設の近く</strong>を避け、屋内にとどまってください。</li>
+      <li>通信が遮断されたときのために<strong>集合場所</strong>を決めておいてください。</li>
+      <li>テレビやラジオ、スマートフォンの通知で<strong>政府の指示</strong>に従ってください。</li>
+    </ol>
+    <h3>🛡️ 戦時中の行動指針</h3>
+    <ol>
+      <li>屋内にとどまり、<strong>外部への露出を最小限にしてください。</strong></li>
+      <li><strong>食料と水</strong>を節約して使ってください。</li>
+      <li><strong>政府放送や公的通知</strong>を定期的に確認してください。</li>
+    </ol>
+    <p><strong>📞 緊急連絡先</strong><br>
+    行政安全部 中央災害安全対策本部：044-205-1542<br>
+    大韓赤十字社：1577-8179<br>
+    消防署：119<br>
+    警察署：112<br>
+    <strong>🌐 政府のお知らせ：</strong> <a href="https://www.gov.kr" target="_blank">www.gov.kr</a></p>
+  `,
+  typhoon: `
+  <h3>🌪️ 台風対策ガイド</h3>
+  <h4><strong>台風前の準備</strong></h4>
+  <ul>
+    <li>天気情報を確認し、外出を控える</li>
+    <li>窓を固定し、非常用品を準備する</li>
+    <li>屋外の物を室内に移動する</li>
+  </ul>
+  <h4><strong>台風中</strong></h4>
+  <ul>
+    <li>屋内に避難し、窓から離れる</li>
+    <li>停電に備え、電化製品の使用に注意する</li>
+    <li>浸水時には電源を切る</li>
+  </ul>
+  <h4><strong>台風後</strong></h4>
+  <ul>
+    <li>危険地域への立ち入りを避ける</li>
+    <li>ガス・電気の点検、感染症に注意</li>
+    <li>施設の被害を報告する</li>
+  </ul>
+  <p><strong>📞 緊急連絡先</strong><br>
+  気象庁: 131<br>
+  消防署: 119</p>
+`,
+tsunami: `
+  <h3>🌊 <strong>津波発生時の対処方法</strong></h3>
+  <h4><strong>事前の備え</strong></h4>
+  <ul>
+    <li>沿岸地域では<strong>津波警報システム</strong>の位置を確認する</li>
+    <li><strong>避難場所や連絡方法</strong>を家族と共有する</li>
+  </ul>
+
+  <h4><strong>津波発生時</strong></h4>
+  <ul>
+    <li>海岸にいる場合は<strong>すぐに高台に避難</strong>する</li>
+    <li>徒歩の方が早ければ<strong>歩いて避難</strong>する</li>
+    <li><strong>海岸や防波堤には近づかない</strong></li>
+  </ul>
+
+  <h4><strong>津波の後</strong></h4>
+  <ul>
+    <li><strong>安全な場所にとどまり</strong>救助活動を妨げない</li>
+    <li><strong>洪水や感染症などの二次災害</strong>に注意する</li>
+    <li><strong>正式な指示があるまで帰宅しない</strong></li>
+  </ul>
+
+  <p><strong>📞 緊急連絡先</strong><br>
+  気象庁: 131<br>
+  消防署: 119</p>
+`
+,
+}
+,
       },
     
       zh: {
             appTitle: "🆘 紧急情况聊天机器人",
             chooseSituation: "当前是什么情况？",
-            wildfire: "🔥 森林火灾",
+            wildfire: "🔥 火灾",
             earthquake: "🌍 地震",
-            flood: "🌊 洪水",
+            flood: "🌧️ 洪水",
             war: "⚔️ 战争",
+            typhoon: "🌪️ 台风",
+            tsunami: "🌊海啸",
             voiceInput: "语音输入",
             changeLanguage: "更改语言",
             settings: "⚙️ 设置",
@@ -142,22 +545,159 @@ const translations = {
               wildfire: "森林火灾应对指南",
               earthquake: "地震应对指南",
               flood: "洪水应对指南",
-              war: "战争应对指南"
+              war: "战争应对指南",
+              typhoon: "台风应对指南",
+              tsunami: "海啸应对指南",
             },
             detailContent: {
-              wildfire: `🔥 户外发生时\n1. 确认风向并向逆风方向逃生。\n2. 避开浓烟区域，保持低姿态移动。\n3. 根据情况判断，步行可能比驾车更安全。\n4. 向比起火点更低的地方撤离。\n🏠 室内发生时\n1. 小火时使用灭火器扑灭。\n2. 扑灭失败立即拨打119并遵循指示。\n3. 用湿毛巾捂住口鼻，保持低姿态撤离。\n4. 确认门把温度再开门逃生。\n5. 切勿使用电梯。\n📞 紧急联系电话\n林业厅：1688-3119\n消防：119`,
-              earthquake: `🏢 室内发生时\n1. 躲在桌子下保护头部。\n2. 远离窗户和易掉落物品。\n3. 震动结束后再撤离。\n🚗 车内发生时\n1. 大震动时留在车内，但避免高架道路和隧道。\n2. 打开双闪灯，停在建筑较少的路边。\n🏞️ 户外发生时\n1. 远离电线杆、大树、建筑物。\n2. 撤离到开阔地区。\n📞 紧急联系电话\n消防：119\n警察：112\n应急管理厅：044-205-1542`,
-              flood: `🏠 室内\n1. 撤离至二楼以上。\n2. 避免使用电器设备，远离水源。\n3. 关闭燃气。\n4. 关注新闻或紧急广播。\n💧 室外\n1. 向高处撤离。\n2. 避免靠近河流、积水道路。\n3. 尽量不使用车辆。\n📞 紧急联系电话\n消防：119\n警察：112\n应急管理厅：044-205-1542`,
-              war: `🚨 战争爆发初期\n1. 听到空袭警报立即前往避难所。\n2. 提前准备应急物资并与家人制定联系计划。\n3. 避开军事设施，尽量待在室内。\n4. 为断网做好准备，与家人商定集合地点和联系方法。\n5. 关注电视、广播或手机通知，遵从政府指示。\n🛡️ 战争期间行为守则\n1. 尽量留在室内，避免外出。\n2. 节约使用粮食和饮水。\n3. 定期确认政府公告与公共预警。\n📞 紧急联系电话\n应急管理厅：044-205-1542\n红十字会：1577-8179\n消防：119\n警察：112\n🌐 政府通知\n政府24：www.gov.kr`
-            }
+  wildfire: `
+    <h3>🏠 室内</h3>
+    <ol>
+      <li>若为<strong>小型火灾</strong>，请使用灭火器。</li>
+      <li><strong>若初期扑灭失败</strong>，请拨打119并遵循指示。</li>
+      <li>用湿毛巾捂住口鼻，低姿态疏散。</li>
+      <li>检查出入口温度后再逃生。</li>
+      <li><strong>不要使用电梯。</strong></li>
+    </ol>
+    <h3>🔥 室外</h3>
+    <ol>
+      <li><strong>朝逆风方向</strong>疏散。</li>
+      <li>避开浓烟区域，<strong>低姿态</strong>移动。</li>
+      <li><strong>步行</strong>可能比开车更安全。</li>
+      <li><strong>向比起火点更低的地方</strong>撤离。</li>
+    </ol>
+    <p><strong>📞 紧急联系电话</strong><br>
+    林业厅：1688-3119<br>
+    消防：119</p>
+  `,
+  earthquake: `
+    <h3>🏢 建筑物内</h3>
+    <ol>
+      <li>躲在桌子下方保护头部。</li>
+      <li>远离窗户和易掉落的物体。</li>
+      <li>震动停止后再撤离。</li>
+    </ol>
+    <h3>🚗 车内</h3>
+    <ol>
+      <li>强烈震动时留在车内。</li>
+      <li>避免高架道路和隧道，开启警示灯后靠边停车。</li>
+    </ol>
+    <h3>🏞️ 室外</h3>
+    <ol>
+      <li>远离树木、建筑物和电线杆。</li>
+      <li>前往开阔地带。</li>
+    </ol>
+    <p><strong>📞 紧急联系电话</strong><br>
+    消防：119<br>
+    警察：112<br>
+    行政安全部灾难安全情况室：044-205-1542</p>
+  `,
+  flood: `
+    <h3>🏠 室内</h3>
+    <ol>
+      <li><strong>疏散至二楼以上</strong>。</li>
+      <li><strong>避免使用电器</strong>，远离水源。</li>
+      <li>关闭燃气阀门。</li>
+      <li>收听当地新闻或应急广播。</li>
+    </ol>
+    <h3>💧 室外</h3>
+    <ol>
+      <li><strong>前往高处</strong>避难。</li>
+      <li>远离河流和被水淹没的道路。</li>
+      <li>尽量避免使用车辆。</li>
+    </ol>
+    <p><strong>📞 紧急联系电话</strong><br>
+    消防：119<br>
+    警察：112<br>
+    行政安全部灾难安全情况室：044-205-1542</p>
+  `,
+  war: `
+    <h3>🚨 战争爆发初期</h3>
+    <ol>
+      <li>听到空袭警报后<strong>立即前往避难所</strong>。</li>
+      <li>准备紧急物品，与家人制定<strong>联系计划</strong>。</li>
+      <li><strong>远离军事设施</strong>并留在室内。</li>
+      <li>为通信中断做好准备，指定<strong>集合地点</strong>。</li>
+      <li>通过电视、广播或手机<strong>遵循政府指示</strong>。</li>
+    </ol>
+    <h3>🛡️ 战争期间行为守则</h3>
+    <ol>
+      <li>尽量待在室内，<strong>避免外出</strong>。</li>
+      <li><strong>节约使用食物和水</strong>。</li>
+      <li><strong>定期查看</strong>政府公告和公共警报。</li>
+    </ol>
+    <p><strong>📞 紧急联系电话</strong><br>
+    行政安全部中央灾难安全对策本部：044-205-1542<br>
+    韩国红十字会：1577-8179<br>
+    消防：119<br>
+    警察：112<br>
+    <strong>🌐 政府公告查看：</strong> <a href="https://www.gov.kr" target="_blank">www.gov.kr</a></p>
+  `,
+  typhoon: `
+  <h3>🌪️ 台风应对指南</h3>
+  <h4><strong>台风前的准备</strong></h4>
+  <ul>
+    <li>关注天气信息，尽量避免外出</li>
+    <li>加固窗户，准备应急用品</li>
+    <li>将户外物品移至室内</li>
+  </ul>
+  <h4><strong>台风期间</strong></h4>
+  <ul>
+    <li>留在室内，远离窗户</li>
+    <li>做好停电准备，谨慎使用电器</li>
+    <li>如遇积水，及时切断电源</li>
+  </ul>
+  <h4><strong>台风后</strong></h4>
+  <ul>
+    <li>避免进入危险区域</li>
+    <li>检查煤气和电路，注意传染病</li>
+    <li>报告设施损坏情况</li>
+  </ul>
+  <p><strong>📞 紧急联系电话</strong><br>
+  气象局: 131<br>
+  消防部门: 119</p>
+`,
+tsunami: `
+  <h3>🌊 <strong>海啸应对指南</strong></h3>
+  <h4><strong>海啸前</strong></h4>
+  <ul>
+    <li>了解您所在沿海地区的<strong>海啸预警系统</strong></li>
+    <li>与家人<strong>分享避难地点和联系方式</strong></li>
+  </ul>
+
+  <h4><strong>海啸发生时</strong></h4>
+  <ul>
+    <li>如在海边，请<strong>立即撤离至高地</strong></li>
+    <li>如果步行更快，<strong>步行撤离</strong>而非驾车</li>
+    <li><strong>警报后不要靠近海边或防波堤</strong></li>
+  </ul>
+
+  <h4><strong>海啸后</strong></h4>
+  <ul>
+    <li><strong>待在安全区域</strong>，避免干扰救援工作</li>
+    <li>注意<strong>洪水、传染病等二次灾害</strong></li>
+    <li>在<strong>收到官方通知前不要返回家中</strong></li>
+  </ul>
+
+  <p><strong>📞 紧急联系电话</strong><br>
+  气象厅: 131<br>
+  消防局: 119</p>
+`
+,
+
+
+}
+
           },
       es: {
             appTitle: "🆘 Chatbot de Emergencia",
             chooseSituation: "¿Cuál es la situación actual?",
-            wildfire: "🔥 Incendio forestal",
+            wildfire: "🔥 Incendio",
             earthquake: "🌍 Terremoto",
-            flood: "🌊 Inundación",
+            flood: "🌧️ Inundación",
             war: "⚔️ Guerra",
+            typhoon: "🌪️ Tifón",
+            tsunami: "🌊Tsunami",
             voiceInput: "Entrada de voz",
             changeLanguage: "Cambiar idioma",
             settings: "⚙️ Configuración",
@@ -178,14 +718,147 @@ const translations = {
               wildfire: "Guía ante Incendio Forestal",
               earthquake: "Guía ante Terremoto",
               flood: "Guía ante Inundación",
-              war: "Guía ante Guerra"
+              war: "Guía ante Guerra",
+              typhoon: "Guía ante Tifón",
+              tsunami: "Guía de seguridad ante un tsunami"
             },
             detailContent: {
-              wildfire: `🔥 Al aire libre\n1. Verifica la dirección del viento y evacúa en dirección opuesta.\n2. Evita el humo espeso y mantente bajo.\n3. Considera caminar si es más seguro que conducir.\n4. Desplázate a zonas más bajas.\n🏠 En interiores\n1. Usa un extintor si es un incendio pequeño.\n2. Si no lo puedes controlar, llama al 119 y sigue instrucciones.\n3. Cúbrete con una toalla mojada y sal agachado.\n4. Verifica la temperatura de la puerta antes de abrirla.\n5. No uses el ascensor.\n📞 Contactos de emergencia\nAgencia Forestal: 1688-3119\nBomberos: 119`,
-              earthquake: `🏢 En interiores\n1. Refúgiate bajo una mesa y protege tu cabeza.\n2. Aléjate de ventanas y objetos que puedan caer.\n3. Evacúa cuando termine el temblor.\n🚗 En un vehículo\n1. Quédate en el coche si el temblor es fuerte, evita túneles y puentes.\n2. Enciende las luces de emergencia y detente en un lugar seguro.\n🏞️ Al aire libre\n1. Aléjate de postes, edificios y árboles.\n2. Refúgiate en un área abierta.\n📞 Contactos de emergencia\nBomberos: 119\nPolicía: 112\nCentro Nacional de Emergencias: 044-205-1542`,
-              flood: `🏠 En casa\n1. Evacúa a pisos superiores.\n2. No uses electricidad ni te acerques al agua.\n3. Cierra el gas.\n4. Sigue noticias o alertas.\n💧 En exteriores\n1. Refúgiate en zonas altas.\n2. No te acerques a ríos o calles inundadas.\n3. Evita usar el coche.\n📞 Contactos de emergencia\nBomberos: 119\nPolicía: 112\nCentro Nacional de Emergencias: 044-205-1542`,
-              war: `🚨 Al inicio de una guerra\n1. Evacúa a un refugio al oír la alerta.\n2. Prepara suministros y acuerda un plan con tu familia.\n3. Evita zonas militares y permanece en interiores.\n4. Establece puntos de reunión y contacto en caso de cortes de comunicación.\n5. Sigue instrucciones del gobierno por TV o móvil.\n🛡️ Durante el conflicto\n1. Permanece en interiores y evita exposición.\n2. Raciona alimentos y agua.\n3. Verifica periódicamente los avisos del gobierno.\n📞 Contactos de emergencia\nCentro Nacional de Emergencias: 044-205-1542\nCruz Roja: 1577-8179\nBomberos: 119\nPolicía: 112\n🌐 Avisos oficiales\nGov24: www.gov.kr`
-            }
+  wildfire: `
+    <h3>🏠 En interiores</h3>
+    <ol>
+      <li>Si es un <strong>incendio pequeño</strong>, utiliza un extintor.</li>
+      <li><strong>Si no puedes controlarlo</strong>, llama al 119 y sigue las instrucciones.</li>
+      <li>Cúbrete la cara con una toalla mojada y evacúa agachado.</li>
+      <li>Verifica la temperatura de la puerta antes de salir.</li>
+      <li><strong>No uses el ascensor.</strong></li>
+    </ol>
+    <h3>🔥 Al aire libre</h3>
+    <ol>
+      <li>Evacúa en dirección <strong>contraria al viento</strong>.</li>
+      <li>Evita el humo espeso y muévete con <strong>postura baja</strong>.</li>
+      <li><strong>Caminar</strong> puede ser más seguro que conducir.</li>
+      <li>Evacúa a un lugar <strong>más bajo que el origen del fuego</strong>.</li>
+    </ol>
+    <p><strong>📞 Contactos de emergencia</strong><br>
+    Servicio Forestal: 1688-3119<br>
+    Bomberos: 119</p>
+  `,
+  earthquake: `
+    <h3>🏢 Dentro de un edificio</h3>
+    <ol>
+      <li>Refúgiate debajo de una mesa y protege tu cabeza.</li>
+      <li>Aléjate de ventanas y objetos que puedan caer.</li>
+      <li>Evacúa después de que termine el temblor.</li>
+    </ol>
+    <h3>🚗 Dentro de un vehículo</h3>
+    <ol>
+      <li>Permanecer en el coche hasta que termine el fuerte temblor.</li>
+      <li>Evita pasos elevados y túneles. Enciende las luces de emergencia y detente en un lugar seguro.</li>
+    </ol>
+    <h3>🏞️ Al aire libre</h3>
+    <ol>
+      <li>Aléjate de árboles, edificios y postes eléctricos.</li>
+      <li>Refúgiate en un área abierta.</li>
+    </ol>
+    <p><strong>📞 Contactos de emergencia</strong><br>
+    Bomberos: 119<br>
+    Policía: 112<br>
+    Ministerio del Interior y Seguridad - Sala de Situación: 044-205-1542</p>
+  `,
+  flood: `
+    <h3>🏠 En interiores</h3>
+    <ol>
+      <li><strong>Evacúa al segundo piso o superior</strong>.</li>
+      <li><strong>No uses aparatos eléctricos</strong> y aléjate del agua.</li>
+      <li>Cierra la válvula de gas.</li>
+      <li>Escucha noticias locales o transmisiones de emergencia.</li>
+    </ol>
+    <h3>💧 Al aire libre</h3>
+    <ol>
+      <li><strong>Muévete a zonas más altas</strong>.</li>
+      <li>No te acerques a ríos ni carreteras inundadas.</li>
+      <li>Evita el uso del vehículo.</li>
+    </ol>
+    <p><strong>📞 Contactos de emergencia</strong><br>
+    Bomberos: 119<br>
+    Policía: 112<br>
+    Ministerio del Interior y Seguridad - Sala de Situación: 044-205-1542</p>
+  `,
+  war: `
+    <h3>🚨 Justo después del inicio de la guerra</h3>
+    <ol>
+      <li>Al oír la alerta aérea, <strong>ve inmediatamente a un refugio</strong>.</li>
+      <li>Prepara suministros de emergencia y establece un <strong>plan de contacto</strong> con tu familia.</li>
+      <li><strong>Evita instalaciones militares</strong> y permanece dentro de casa.</li>
+      <li>Designa un <strong>punto de encuentro</strong> en caso de pérdida de comunicación.</li>
+      <li>Sigue las <strong>instrucciones del gobierno</strong> por TV, radio o alertas del móvil.</li>
+    </ol>
+    <h3>🛡️ Durante la guerra</h3>
+    <ol>
+      <li>Permanecer en interiores y <strong>reducir la exposición al exterior</strong>.</li>
+      <li><strong>Racionar alimentos y agua</strong>.</li>
+      <li><strong>Revisar periódicamente</strong> las alertas públicas y transmisiones gubernamentales.</li>
+    </ol>
+    <p><strong>📞 Contactos de emergencia</strong><br>
+    Sede Central de Gestión de Desastres: 044-205-1542<br>
+    Cruz Roja de Corea: 1577-8179<br>
+    Bomberos: 119<br>
+    Policía: 112<br>
+    <strong>🌐 Avisos oficiales:</strong> <a href="https://www.gov.kr" target="_blank">www.gov.kr</a></p>
+  `,
+  typhoon: `
+  <h3>🌪️ Guía de Seguridad para Tifones</h3>
+  <h4><strong>Antes del tifón</strong></h4>
+  <ul>
+    <li>Consulta el clima y evita salir</li>
+    <li>Asegura las ventanas y prepara suministros de emergencia</li>
+    <li>Guarda objetos exteriores dentro de casa</li>
+  </ul>
+  <h4><strong>Durante el tifón</strong></h4>
+  <ul>
+    <li>Quédate en casa y aléjate de las ventanas</li>
+    <li>Prepárate para apagones y ten cuidado con los aparatos eléctricos</li>
+    <li>Desconecta la electricidad si hay inundación</li>
+  </ul>
+  <h4><strong>Después del tifón</strong></h4>
+  <ul>
+    <li>Evita zonas peligrosas</li>
+    <li>Revisa el gas y la electricidad, ten precaución con enfermedades</li>
+    <li>Reporta daños en las instalaciones</li>
+  </ul>
+  <p><strong>📞 Contactos de emergencia</strong><br>
+  Meteorología: 131<br>
+  Bomberos: 119</p>
+`,
+tsunami: `
+  <h3>🌊 <strong>Guía de actuación ante un tsunami</strong></h3>
+  <h4><strong>Antes del tsunami</strong></h4>
+  <ul>
+    <li>Conozca los <strong>sistemas de alerta de tsunami</strong> en su zona costera</li>
+    <li>Comparta con su familia <strong>rutas de evacuación y formas de contacto</strong></li>
+  </ul>
+
+  <h4><strong>Durante el tsunami</strong></h4>
+  <ul>
+    <li>Si está cerca del mar, <strong>evacúe inmediatamente a zonas altas</strong></li>
+    <li>Si es más rápido, <strong>evacúe caminando</strong> en lugar de conducir</li>
+    <li>No se acerque a la <strong>playa o rompeolas después de una alerta</strong></li>
+  </ul>
+
+  <h4><strong>Después del tsunami</strong></h4>
+  <ul>
+    <li><strong>Permanezca en un lugar seguro</strong> y no obstaculice los rescates</li>
+    <li>Esté atento a <strong>riesgos secundarios</strong> como inundaciones o enfermedades</li>
+    <li>No regrese a casa <strong>hasta que lo autoricen oficialmente</strong></li>
+  </ul>
+
+  <p><strong>📞 Contactos de emergencia</strong><br>
+  Agencia Meteorológica: 131<br>
+  Bomberos: 119</p>
+`
+,
+}
+
           }
           
     }
